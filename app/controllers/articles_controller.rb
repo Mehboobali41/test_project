@@ -14,13 +14,14 @@ class ArticlesController < ApplicationController
         @article =Article.new
     end
     def create
-        @article=Article.new(article_pramas)
-       if @article.save
+      @article=Article.new(article_pramas)
+
+      if @article.save
         redirect_to @article
-       else
+      else
         @errors = @article.errors
         render turbo_stream: turbo_stream.replace('article_form', partial: 'form')
-       end
+      end
     end
 
     def edit
