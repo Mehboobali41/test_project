@@ -1,7 +1,9 @@
 <h1>Showing article Detail</h1>
-
+<div>
+By: <%= @article.user.username if @article.user %>
+</div>
 <p><strong>title:</strong><%= @article.title%></p>
 <p><strong>description:</strong><%= @article.description%></p>
 
-<%= link_to'Edit', edit_article_path(@article) %> |
+<%= link_to'Edit', edit_article_path(@article) if current_user == @article.user%> |
 <%= link_to'Return to article listing',articles_path %> 

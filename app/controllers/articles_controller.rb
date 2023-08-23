@@ -1,7 +1,6 @@
 class ArticlesController < ApplicationController
     before_action :authenticate_user!, except: [:index, :show]   
      before_action :set_article, only: [:show, :edit, :update, :destroy]
-
     def index
         @articles =Article.all
         
@@ -15,6 +14,7 @@ class ArticlesController < ApplicationController
     end
     def create
         @article=Article.new(article_pramas)
+        @article.user = User.first # <--- Add this line
        if @article.save
         redirect_to @article
        else
@@ -32,12 +32,12 @@ class ArticlesController < ApplicationController
             else
                 @errors = @article.errors
                 render turbo_stream: turbo_stream.replace('article_form', partial: 'form')
-            end
-        
+            end 
     end
 
     def destroy
         @article.destroy
+    
         redirect_to article_path
         
     end
@@ -45,7 +45,10 @@ class ArticlesController < ApplicationController
     def set_article
         @article=Article.find(params[:id])
     end
+
     def article_pramas
         params.require(:article).permit(:title, :description)
     end
+
+   
 end
